@@ -1,0 +1,7 @@
+{
+  "name": "walkie-talkie",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Walkie-Talkie</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label>Channel</ion-label>
+    <ion-select [(ngModel)]="channelId" (ionChange)="joinChannel()">
+      <ion-select-option value="channel1">Channel 1</ion-select-option>
+      <ion-select-option value="channel2">Channel 2</ion-select-option>
+      <ion-select-option value="channel3">Channel 3</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button 
+    expand="block" 
+    [disabled]="!channelId || !stream" 
+    (touchstart)="startTalking()" 
+    (touchend)="stopTalking()"
+    (mousedown)="startTalking()"
+    (mouseup)="stopTalking()">
+    {{ isTalking ? 'Release to Listen' : 'Hold to Talk' }}
+  </ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let user of connectedUsers">
+      <ion-label>{{ user }}</ion-label>
+      <ion-badge *ngIf="talkingUsers.includes(user)" color="success">Talking</ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>
