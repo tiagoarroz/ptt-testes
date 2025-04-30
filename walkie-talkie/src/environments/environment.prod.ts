@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  signalingServerUrl: 'ws://0.0.0.0:3000' // Update for production
 };

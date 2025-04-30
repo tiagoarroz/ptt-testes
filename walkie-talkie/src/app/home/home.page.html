@@ -6,25 +6,43 @@
 
 <ion-content class="ion-padding">
   <ion-item>
-    <ion-label>Channel</ion-label>
-    <ion-select [(ngModel)]="channelId" (ionChange)="joinChannel()">
-      <ion-select-option value="channel1">Channel 1</ion-select-option>
-      <ion-select-option value="channel2">Channel 2</ion-select-option>
-      <ion-select-option value="channel3">Channel 3</ion-select-option>
+    <ion-label>Canal</ion-label>
+    <ion-select 
+      [(ngModel)]="channelId" 
+      (ionChange)="onChannelChange()" 
+      [disabled]="!isSocketReady" 
+      [placeholder]="isSocketReady ? 'Selecione um canal' : 'A conectar...'"
+    >
+      <ion-select-option value="channel1">Canal 1</ion-select-option>
+      <ion-select-option value="channel2">Canal 2</ion-select-option>
+      <ion-select-option value="channel3">Canal 3</ion-select-option>
     </ion-select>
   </ion-item>
 
-  <ion-button 
-    expand="block" 
-    [disabled]="!channelId || !stream" 
-    (touchstart)="startTalking()" 
-    (touchend)="stopTalking()"
-    (mousedown)="startTalking()"
-    (mouseup)="stopTalking()">
-    {{ isTalking ? 'Release to Listen' : 'Hold to Talk' }}
-  </ion-button>
+  <div class="connection-status">
+    <ion-spinner *ngIf="isRetrying" name="crescent" class="retry-spinner"></ion-spinner>
+    <ion-text color="danger" *ngIf="connectionError" class="connection-error">
+      {{ connectionError }}
+    </ion-text>
+  </div>
+  
+  <div class="container-botao-falar">
+    <ion-button 
+      expand="block" 
+      [color]="hasJoinError ? 'danger' : 'primary'" 
+      [disabled]="hasJoinError || !channelId || !stream || !socket?.connected || !userId" 
+      (touchstart)="startTalking($event)" 
+      (touchend)="stopTalking($event)"
+      (mousedown)="startTalking($event)"
+      (mouseup)="stopTalking($event)"
+      class="botao-falar"
+    >
+      {{ hasJoinError ? 'Erro ao entrar no canal' : (isTalking ? 'Largar para ouvir' : 'Segurar para falar') }}
+    </ion-button>
+  </div>
 
   <ion-list>
+    <div>Utilizadores conectados</div>
     <ion-item *ngFor="let user of connectedUsers">
       <ion-label>{{ user }}</ion-label>
       <ion-badge *ngIf="talkingUsers.includes(user)" color="success">Talking</ion-badge>

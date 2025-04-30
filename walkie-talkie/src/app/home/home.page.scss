@@ -1,6 +1,18 @@
-ion-button {
+.container-botao-falar
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 150px);
+  width: 100%;
+}
+
+ion-button.botao-falar {
   margin-top: 20px;
-  height: 60px;
+  height: 300px;
+  width: 300px;
+  --border-radius: 100%;
 }
 
 ion-badge {
